@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tezznirman — Coming Soon</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --orange: #1D4ED8;
+  --orange-light: #2563EB;
+  --orange-pale: #EFF6FF;
+  --navy: #0D1B2A;
+  --navy-mid: #1C2E42;
+  --text: #0F172A;
+  --text-mid: #4A5568;
+  --text-light: #8A94A6;
+  --white: #FFFFFF;
+  --off-white: #F8FAFC;
+  --border: #E2E8F0;
+  --border-warm: #DBEAFE;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--white);
+  font-family: 'Outfit', sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SUBTLE GRAIN TEXTURE ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 100;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── LAYOUT ── */
+.page {
+  width: 100%; height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── LEFT PANEL ── */
+.left {
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── RIGHT PANEL ── */
+.right {
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── HEADER ── */
+.header {
+  padding: 36px 52px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation: fadeSlideDown 0.8s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-mark {
+  width: 40px; height: 40px;
+  background: var(--orange);
+  display: flex; align-items: center; justify-content: center;
+  clip-path: polygon(0 0, 80% 0, 100% 20%, 100% 100%, 20% 100%, 0 80%);
+}
+
+.logo-mark svg { width: 20px; height: 20px; fill: white; }
+
+.logo-text {
+  font-family: 'Outfit'; font-weight: 600;
+  font-size: 18px; letter-spacing: 0.08em;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+.logo-text span { color: var(--orange); }
+
+.status-tag {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 14px;
+  border: 1px solid var(--border-warm);
+  background: var(--orange-pale);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--orange);
+  text-transform: uppercase;
+}
+
+.pulse-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+
+/* ── MAIN CONTENT ── */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 52px 0;
+}
+
+.pre-label {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+  animation: fadeSlideUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.3s both;
+}
+
+.pre-label::before {
+  content: '';
+  width: 24px; height: 1.5px;
+  background: var(--orange);
+  display: block;
+}
+
+h1 {
+  font-family: 'Playfair Display';
+  font-size: clamp(40px, 4.5vw, 62px);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 8px;
+  animation: fadeSlideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.45s both;
+}
+
+h1 .accent { color: var(--orange); font-style: italic; }
+
+.sub-headline {
+  font-size: 15px; font-weight: 300;
+  color: var(--text-mid);
+  line-height: 1.7;
+  max-width: 420px;
+  margin-bottom: 36px;
+  animation: fadeSlideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.6s both;
+}
+
+/* ── 60 MIN USP BLOCK ── */
+.usp-block {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin-bottom: 28px;
+  animation: fadeSlideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.65s both;
+  max-width: 420px;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+}
+.usp-timer {
+  background: var(--orange);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 18px 24px; min-width: 100px;
+  position: relative; overflow: hidden;
+}
+.usp-timer::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
+}
+.usp-number {
+  font-family: 'Playfair Display';
+  font-size: 42px; font-weight: 900; color: white;
+  line-height: 1; position: relative; z-index: 1;
+  animation: usp60 2.5s ease-in-out infinite;
+}
+@keyframes usp60 {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.usp-unit {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  position: relative; z-index: 1; margin-top: 2px;
+}
+.usp-details {
+  flex: 1; background: var(--off-white);
+  padding: 16px 20px;
+  display: flex; flex-direction: column;
+  justify-content: center; gap: 4px;
+  border-left: 1.5px solid var(--border);
+}
+.usp-headline {
+  font-size: 13px; font-weight: 700;
+  color: var(--text); line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+.usp-checks { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+.usp-check {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11.5px; color: var(--text-mid); font-weight: 400;
+}
+.check-icon {
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--orange); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.check-icon svg { width: 9px; height: 9px; }
+
+/* ── MATERIAL PILLS ── */
+.material-pills {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 36px;
+  animation: fadeSlideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.72s both;
+}
+
+.pill {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  background: var(--off-white);
+  font-size: 12px; font-weight: 500;
+  color: var(--text-mid);
+  letter-spacing: 0.02em;
+  transition: all 0.25s ease;
+  cursor: default;
+}
+
+.pill:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+  background: var(--orange-pale);
+}
+
+.pill .icon { font-size: 13px; }
+
+/* ── EMAIL FORM ── */
+.form-wrap {
+  animation: fadeSlideUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.85s both;
+}
+
+.form-label {
+  font-size: 12px; font-weight: 500;
+  color: var(--text-light);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.input-row {
+  display: flex;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  transition: border-color 0.3s;
+  max-width: 420px;
+}
+
+.input-row:focus-within {
+  border-color: var(--orange);
+}
+
+.email-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 14px 18px;
+  font-family: 'Outfit';
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+}
+
+.email-input::placeholder { color: var(--text-light); }
+
+.submit-btn {
+  background: var(--orange);
+  border: none;
+  padding: 14px 24px;
+  font-family: 'Outfit';
+  font-size: 13px; font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+  transition: background 0.25s;
+  white-space: nowrap;
+}
+
+.submit-btn:hover { background: var(--orange-light); }
+
+.form-note {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-top: 10px;
+}
+
+.success-msg {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--orange-pale);
+  border: 1px solid var(--border-warm);
+  font-size: 13px;
+  color: var(--orange);
+  font-weight: 500;
+  max-width: 420px;
+  margin-top: 8px;
+}
+
+/* ── FOOTER (left) ── */
+.left-footer {
+  padding: 28px 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+  animation: fadeSlideUp 0.8s cubic-bezier(0.22,1,0.36,1) 1s both;
+}
+
+.footer-copy {
+  font-size: 11px;
+  color: var(--text-light);
+  letter-spacing: 0.04em;
+}
+
+.footer-links {
+  display: flex; gap: 20px;
+}
+
+.footer-links a {
+  font-size: 11px;
+  color: var(--text-light);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--orange); }
+
+/* ══════════════════════════════════
+   RIGHT PANEL — animated
+══════════════════════════════════ */
+
+/* Subtle geometric grid */
+.right-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridShift 25s linear infinite;
+}
+
+@keyframes gridShift {
+  from { background-position: 0 0; }
+  to { background-position: 60px 60px; }
+}
+
+/* Radial glow */
+.right-glow {
+  position: absolute;
+  width: 500px; height: 500px;
+  background: radial-gradient(ellipse, rgba(29,78,216,0.18) 0%, transparent 65%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: glowBreath 5s ease-in-out infinite;
+}
+
+@keyframes glowBreath {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+  50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+}
+
+/* Secondary glow */
+.right-glow2 {
+  position: absolute;
+  width: 300px; height: 300px;
+  background: radial-gradient(ellipse, rgba(29,78,216,0.10) 0%, transparent 65%);
+  bottom: 10%; right: 10%;
+  animation: glowBreath 7s ease-in-out 2s infinite;
+}
+
+/* ── COUNTDOWN BLOCK ── */
+.cd-block {
+  position: relative; z-index: 5;
+  display: flex; flex-direction: column;
+  align-items: center;
+  animation: fadeSlideUp 1s cubic-bezier(0.22,1,0.36,1) 0.5s both;
+}
+
+.cd-eyebrow {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 32px;
+}
+
+.cd-row {
+  display: flex; align-items: flex-start; gap: 4px;
+}
+
+.cd-unit {
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.cd-num {
+  font-family: 'Playfair Display';
+  font-size: clamp(54px, 6vw, 80px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+  min-width: 90px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.cd-num.tick {
+  animation: numTick 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes numTick {
+  0% { transform: translateY(-10px) scale(0.85); opacity: 0; color: var(--orange); }
+  100% { transform: translateY(0) scale(1); opacity: 1; color: white; }
+}
+
+.cd-label {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-top: 8px;
+}
+
+.cd-sep {
+  font-family: 'Playfair Display';
+  font-size: clamp(54px, 6vw, 80px);
+  font-weight: 700;
+  color: var(--orange);
+  line-height: 1;
+  padding: 0 4px;
+  animation: sepBlink 1.2s step-end infinite;
+}
+
+@keyframes sepBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* ── DELIVERY PROMISE ── */
+.delivery-promise {
+  margin-top: 48px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+
+.dp-number {
+  font-family: 'Playfair Display';
+  font-size: clamp(80px, 10vw, 120px);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1;
+  position: relative;
+  animation: deliveryReveal 1s cubic-bezier(0.22,1,0.36,1) 0.8s both;
+}
+
+@keyframes deliveryReveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0% 0 0); }
+}
+
+.dp-number span {
+  color: var(--orange);
+  font-style: italic;
+}
+
+.dp-text {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+
+.dp-divider {
+  width: 40px; height: 1.5px;
+  background: var(--orange);
+  margin: 10px 0;
+  animation: dividerGrow 1s cubic-bezier(0.22,1,0.36,1) 1s both;
+}
+
+@keyframes dividerGrow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* ── VERTICAL LABEL RIGHT ── */
+.right-label {
+  position: absolute;
+  right: 28px; top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: center;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.18);
+  white-space: nowrap;
+}
+
+/* ── ORANGE LINE ACCENT (left edge of right panel) ── */
+.panel-edge {
+  position: absolute;
+  left: 0; top: 10%; bottom: 10%;
+  width: 3px;
+  background: linear-gradient(to bottom, transparent, var(--orange) 30%, var(--orange) 70%, transparent);
+  animation: edgePulse 3s ease-in-out infinite;
+}
+
+@keyframes edgePulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; box-shadow: 0 0 16px rgba(29,78,216,0.5); }
+}
+
+/* ── FLOATING MATERIAL TAGS ── */
+.mat-tags {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 24px 40px;
+  display: flex; justify-content: center;
+  gap: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  animation: fadeSlideUp 0.9s cubic-bezier(0.22,1,0.36,1) 1.1s both;
+}
+
+.mat-tag {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  transition: color 0.3s;
+  white-space: nowrap;
+}
+
+.mat-tag .dot-tag {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--orange); opacity: 0.5;
+}
+
+/* ── DIAGONAL STRIPE ACCENT ── */
+.stripe {
+  position: absolute;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(29,78,216,0.25), transparent);
+  animation: stripeFloat var(--sd) ease-in-out var(--sde) infinite;
+  pointer-events: none;
+}
+
+@keyframes stripeFloat {
+  0%, 100% { transform: translateX(0); opacity: 0.4; }
+  50% { transform: translateX(8px); opacity: 0.8; }
+}
+
+/* ── SCROLL TICKER (left panel bottom) ── */
+.ticker-wrap {
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+  margin: 0 0 0 0;
+}
+
+.ticker-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: tickerScroll 28s linear infinite;
+}
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 0 28px;
+  font-size: 11px; font-weight: 500;
+  color: var(--text-light);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ticker-item .t-sep { color: var(--orange); margin: 0 4px; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeSlideUp {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeSlideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ── TYPEWRITER ── */
+.typewriter-line {
+  min-height: 24px;
+  display: inline-block;
+}
+
+.tw-cursor {
+  display: inline-block;
+  width: 2px; height: 1.1em;
+  background: var(--orange);
+  margin-left: 1px;
+  vertical-align: middle;
+  animation: sepBlink 0.85s step-end infinite;
+}
+
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ LEFT PANEL ═══ -->
+  <div class="left">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        </div>
+        <div class="logo-text">Tezz<span>nirman</span></div>
+      </div>
+      <div class="status-tag">
+        <div class="pulse-dot"></div>
+        Coming Soon
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <div class="pre-label">🇮🇳 &nbsp;Made in India · Built for Builders</div>
+
+      <h1>
+        Construction Never<br>
+        <span class="accent">Waits. Neither Do We.</span>
+      </h1>
+
+      <p class="sub-headline">
+        India ka pehla on-demand construction delivery platform — every material, at your site, in under 60 minutes.
+      </p>
+
+      <!-- 60 MIN USP -->
+      <div class="usp-block">
+        <div class="usp-timer">
+          <div class="usp-number">&lt;60</div>
+          <div class="usp-unit">Minutes</div>
+        </div>
+        <div class="usp-details">
+          <div class="usp-headline">Delivered to your construction site</div>
+          <div class="usp-checks">
+            <div class="usp-check">
+              <div class="check-icon"><svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2.5 2.5 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              Order via App or WhatsApp
+            </div>
+            <div class="usp-check">
+              <div class="check-icon"><svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2.5 2.5 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              Real-time delivery tracking
+            </div>
+            <div class="usp-check">
+              <div class="check-icon"><svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2.5 2.5 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              All materials. One platform.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Material pills -->
+      <div class="material-pills">
+        <div class="pill"><span class="icon">🏛️</span> Cement</div>
+        <div class="pill"><span class="icon">⚙️</span> Steel & Rods</div>
+        <div class="pill"><span class="icon">🧱</span> Bricks</div>
+        <div class="pill"><span class="icon">🪟</span> Tiles</div>
+        <div class="pill"><span class="icon">🎨</span> Paint</div>
+        <div class="pill"><span class="icon">⚡</span> Electrical</div>
+        <div class="pill"><span class="icon">🪣</span> Sand</div>
+      </div>
+
+      <!-- Email form -->
+      <div class="form-wrap">
+        <div class="form-label">Get early access</div>
+        <div class="input-row">
+          <input class="email-input" type="email" id="emailIn" placeholder="Enter your email address">
+          <button class="submit-btn" onclick="handleSubmit()">Notify Me</button>
+        </div>
+        <p class="form-note">We'll notify you the moment we launch. No spam.</p>
+        <div class="success-msg" id="successMsg">
+          ✓ &nbsp;You're on the list. We'll reach out first.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Ticker -->
+    <div class="ticker-wrap">
+      <div class="ticker-track" id="ticker"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="left-footer">
+      <div class="footer-copy">© 2025 Tezznirman · <em style="font-style:normal;color:var(--orange);">Har site ka bharosa.</em></div>
+      <div class="footer-links">
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">WhatsApp</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ RIGHT PANEL ═══ -->
+  <div class="right">
+
+    <div class="right-grid"></div>
+    <div class="right-glow"></div>
+    <div class="right-glow2"></div>
+    <div class="panel-edge"></div>
+    <div class="right-label">Tezznirman — Construction Delivery</div>
+
+    <!-- Decorative stripes -->
+    <div class="stripe" style="left:20%;top:0;height:100%;--sd:4s;--sde:0s;"></div>
+    <div class="stripe" style="left:40%;top:0;height:100%;--sd:5s;--sde:1s;opacity:.3;"></div>
+    <div class="stripe" style="left:65%;top:0;height:100%;--sd:4.5s;--sde:.5s;"></div>
+    <div class="stripe" style="left:85%;top:0;height:100%;--sd:6s;--sde:2s;opacity:.25;"></div>
+
+    <!-- Central content -->
+    <div class="cd-block">
+
+      <div class="cd-eyebrow">Launching in</div>
+
+      <div class="cd-row">
+        <div class="cd-unit">
+          <div class="cd-num" id="d">47</div>
+          <div class="cd-label">Days</div>
+        </div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit">
+          <div class="cd-num" id="h">00</div>
+          <div class="cd-label">Hours</div>
+        </div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit">
+          <div class="cd-num" id="m">00</div>
+          <div class="cd-label">Mins</div>
+        </div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit">
+          <div class="cd-num" id="s">00</div>
+          <div class="cd-label">Secs</div>
+        </div>
+      </div>
+
+      <div class="delivery-promise">
+        <div class="dp-divider"></div>
+        <div class="dp-text">Guaranteed delivery</div>
+        <div class="dp-number"><span>&lt; 60</span> Min</div>
+        <div class="dp-text">To your construction site</div>
+      </div>
+
+    </div>
+
+    <!-- Bottom material tags -->
+    <div class="mat-tags">
+      <div class="mat-tag"><div class="dot-tag"></div>Cement</div>
+      <div class="mat-tag"><div class="dot-tag"></div>Steel</div>
+      <div class="mat-tag"><div class="dot-tag"></div>Tiles</div>
+      <div class="mat-tag"><div class="dot-tag"></div>Paint</div>
+      <div class="mat-tag"><div class="dot-tag"></div>Electrical</div>
+      <div class="mat-tag"><div class="dot-tag"></div>Bricks</div>
+      <div class="mat-tag"><div class="dot-tag"></div>Sand</div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// ── COUNTDOWN ──
+const launch = new Date();
+launch.setDate(launch.getDate() + 47);
+launch.setHours(0,0,0,0);
+
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function tick(){
+  const diff = launch - new Date();
+  if(diff <= 0) return;
+  const vals = [
+    Math.floor(diff/86400000),
+    Math.floor((diff%86400000)/3600000),
+    Math.floor((diff%3600000)/60000),
+    Math.floor((diff%60000)/1000)
+  ];
+  ['d','h','m','s'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    const v = pad(vals[i]);
+    if(el.textContent !== v){
+      el.textContent = v;
+      el.classList.remove('tick');
+      void el.offsetWidth;
+      el.classList.add('tick');
+    }
+  });
+}
+tick(); setInterval(tick, 1000);
+
+// ── TYPEWRITER ──
+const lines = [
+  'Order any construction material and get it delivered to your site in under 60 minutes.',
+  'Cement, Steel, Bricks, Tiles, Paint & Electrical — all in one platform.',
+  'Never let a material shortage stop your project again.',
+  'India\'s first on-demand construction material delivery service.',
+];
+let li = 0, ci = 0, del = false;
+const tw = document.getElementById('tw');
+
+function type(){
+  const line = lines[li];
+  if(!del){
+    ci++;
+    tw.innerHTML = line.slice(0,ci) + '<span class="tw-cursor"></span>';
+    if(ci >= line.length){ del = true; setTimeout(type, 2800); return; }
+    setTimeout(type, 28);
+  } else {
+    ci--;
+    tw.innerHTML = line.slice(0,ci) + '<span class="tw-cursor"></span>';
+    if(ci === 0){ del = false; li = (li+1)%lines.length; setTimeout(type, 400); return; }
+    setTimeout(type, 14);
+  }
+}
+setTimeout(type, 1000);
+
+// ── TICKER ──
+const items = [
+  '🏛️ Cement Bags','⚙️ Steel Rods','🧱 Bricks','🪟 Floor Tiles','🎨 Interior Paint',
+  '⚡ Electrical Wires','🪣 River Sand','💡 Switches & Sockets','🪟 Wall Tiles',
+  '🎨 Exterior Paint','🔌 MCB & DB','🔩 Binding Wire','🎨 Primer & Putty',
+];
+
+const t = document.getElementById('ticker');
+const doubled = [...items,...items,...items,...items];
+doubled.forEach(item => {
+  const div = document.createElement('div');
+  div.className = 'ticker-item';
+  div.innerHTML = item + '<span class="t-sep">·</span>';
+  t.appendChild(div);
+});
+
+// ── EMAIL SUBMIT ──
+function handleSubmit(){
+  const v = document.getElementById('emailIn').value;
+  const s = document.getElementById('successMsg');
+  if(!v || !v.includes('@')){
+    const row = document.querySelector('.input-row');
+    row.style.borderColor = '#EF4444';
+    setTimeout(() => row.style.borderColor = '', 1000);
+    return;
+  }
+  s.style.display = 'flex';
+  document.querySelector('.form-label').style.opacity = '0.4';
+  document.querySelector('.input-row').style.opacity = '0.4';
+  document.querySelector('.input-row').style.pointerEvents = 'none';
+}
+</script>
+
+</body>
+</html>
